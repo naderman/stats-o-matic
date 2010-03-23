@@ -10,10 +10,25 @@
 error_reporting(-1);
 
 require 'SplClassLoader.php';
+require 'ezcClassLoader.php';
 
-$statsClassLoader = new SplClassLoader('Statsomatic', '.');
+set_include_path(
+    // libraries
+    realpath(dirname(__FILE__) . '/../lib') . PATH_SEPARATOR .
+    // all other includes
+    get_include_path()
+);
+
+
+$statsClassLoader = new SplClassLoader('Statsomatic');
 $statsClassLoader->setNamespaceSeparator('_');
 $statsClassLoader->register();
+
+$ezcBaseLoader = new ezcClassLoader('Base');
+$ezcBaseLoader->register();
+
+$ezcGraphLoader = new ezcClassLoader('Graph');
+$ezcGraphLoader->register();
 
 $viewer = new Statsomatic_Viewer();
 $viewer->display();

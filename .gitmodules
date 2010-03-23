@@ -4,3 +4,6 @@
 [submodule "lib/ezc-base"]
 	path = lib/ezc-base
 	url = git://github.com/naderman/ezc-base.git
+[submodule "lib/ezc-database"]
+	path = lib/ezc-database
+	url = git://github.com/naderman/ezc-database.git

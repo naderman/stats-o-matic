@@ -27,6 +27,9 @@ $statsClassLoader->register();
 $ezcBaseLoader = new ezcClassLoader('Base');
 $ezcBaseLoader->register();
 
+$ezcDatabaseLoader = new ezcClassLoader('Database');
+$ezcDatabaseLoader->register();
+
 $ezcGraphLoader = new ezcClassLoader('Graph');
 $ezcGraphLoader->register();
 

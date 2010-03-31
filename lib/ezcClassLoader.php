@@ -20,7 +20,16 @@ class ezcClassLoader
     public function __construct($component)
     {
         $this->component = $component;
-        $classLocations = include($this->getPath() . strtolower($component) . '_autoload.php');
+
+        if (strtolower($component) == 'database')
+        {
+            $classLocations = include($this->getPath() . 'db_autoload.php');
+            $classLocations += include($this->getPath() . 'query_autoload.php');
+        }
+        else
+        {
+            $classLocations = include($this->getPath() . strtolower($component) . '_autoload.php');
+        }
 
         foreach ($classLocations as $class => $path)
         {

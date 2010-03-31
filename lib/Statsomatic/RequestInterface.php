@@ -7,10 +7,7 @@
 *
 */
 
-class Statsomatic_Viewer
+interface Statsomatic_RequestInterface
 {
-    public function display(Statsomatic_RequestInterface $request)
-    {
-        return;
-    }
+    public function get($varname, $default);
 }

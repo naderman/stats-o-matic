@@ -7,7 +7,7 @@
 *
 */
 
-require 'lib/Statsomatic/Viewer.php';
+require 'lib/autoload.php';
 
 class Statsomatic_ViewerTest extends PHPUnit_Framework_TestCase
 {
@@ -20,6 +20,7 @@ class Statsomatic_ViewerTest extends PHPUnit_Framework_TestCase
 
     public function testDisplay()
     {
-        $this->assertEquals('', $this->viewer->display());
+        $request = $this->getMock('Statsomatic_RequestInterface');
+        $this->assertEquals('', $this->viewer->display($request));
     }
 }

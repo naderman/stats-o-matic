@@ -27,12 +27,12 @@ class Statsomatic_Filter_MainColumnFilterTest extends PHPUnit_Framework_TestCase
     static public function filterData()
     {
         return array(
-            array('eq', 2, PDO::PARAM_INT, 'm1.PROVIDER_variable = :ezcValue1'),
-            array('gt', 2, PDO::PARAM_INT, 'm1.PROVIDER_variable > :ezcValue1'),
-            array('lt', 2, PDO::PARAM_INT, 'm1.PROVIDER_variable < :ezcValue1'),
-            array('lte', 2, PDO::PARAM_INT, 'm1.PROVIDER_variable <= :ezcValue1'),
-            array('gte', 2, PDO::PARAM_INT, 'm1.PROVIDER_variable >= :ezcValue1'),
-            array('eq','abc', PDO::PARAM_STR, 'm1.PROVIDER_variable = :ezcValue1'),
+            array('eq', 2, 'int', 'm1.PROVIDER_variable = :ezcValue1'),
+            array('gt', 2, 'int', 'm1.PROVIDER_variable > :ezcValue1'),
+            array('lt', 2, 'int', 'm1.PROVIDER_variable < :ezcValue1'),
+            array('lte', 2, 'int', 'm1.PROVIDER_variable <= :ezcValue1'),
+            array('gte', 2, 'int', 'm1.PROVIDER_variable >= :ezcValue1'),
+            array('eq','abc', 'varchar', 'm1.PROVIDER_variable = :ezcValue1'),
         );
     }
 
@@ -41,7 +41,7 @@ class Statsomatic_Filter_MainColumnFilterTest extends PHPUnit_Framework_TestCase
     */
     public function testApplyFilter($comperator, $value, $type, $sql)
     {
-        $filter = new Statsomatic_Filter_MainColumnFilter('PROVIDER', 'variable', $comperator, $value, $type);
+        $filter = new Statsomatic_Filter_MainColumnFilter(new Statsomatic_Variable('PROVIDER', 'variable', $type), $comperator, $value);
         $filter->apply($this->query);
 
         $this->assertEquals('SELECT m1.entry_id FROM statistics_main AS m1 WHERE ' . $sql, $this->query->getQuery());
@@ -49,9 +49,9 @@ class Statsomatic_Filter_MainColumnFilterTest extends PHPUnit_Framework_TestCase
 
     public function testApplyMultipleFilter()
     {
-        $filter1 = new Statsomatic_Filter_MainColumnFilter('PROVIDER', 'variable1', 'eq', 2, PDO::PARAM_INT);
-        $filter2 = new Statsomatic_Filter_MainColumnFilter('PROVIDER', 'variable2', 'lt', 3, PDO::PARAM_INT);
-        $filter3 = new Statsomatic_Filter_MainColumnFilter('PROVIDER', 'variable3', 'gte', 1, PDO::PARAM_INT);
+        $filter1 = new Statsomatic_Filter_MainColumnFilter(new Statsomatic_Variable('PROVIDER', 'variable1', 'int'), 'eq', 2);
+        $filter2 = new Statsomatic_Filter_MainColumnFilter(new Statsomatic_Variable('PROVIDER', 'variable2', 'int'), 'lt', 3);
+        $filter3 = new Statsomatic_Filter_MainColumnFilter(new Statsomatic_Variable('PROVIDER', 'variable3', 'int'), 'gte', 1);
 
         $filter1->apply($this->query);
         $this->assertEquals(

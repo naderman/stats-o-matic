@@ -20,7 +20,7 @@ class Statsomatic_Data_Definitions
     {
         if (isset($this->providers[$provider][$variable]))
         {
-            return new Statsomatic_maVariable(
+            return new Statsomatic_Variable(
                 $provider,
                 $variable,
                 $this->providers[$provider][$variable]['type'],

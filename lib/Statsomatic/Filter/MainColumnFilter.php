@@ -9,27 +9,23 @@
 
 class Statsomatic_Filter_MainColumnFilter implements Statsomatic_FilterInterface
 {
-    private $provider;
     private $variable;
     private $comperator;
     private $value;
-    private $type;
 
-    public function __construct($provider, $variable, $comperator, $value, $type = PDO::PARAM_STR)
+    public function __construct(Statsomatic_Variable $variable, $comperator, $value)
     {
-        $this->provider = $provider;
         $this->variable = $variable;
         $this->comperator = $comperator;
         $this->value = $value;
-        $this->type = $type;
     }
 
     public function apply(ezcQuerySelect $q)
     {
         $q->where(
             $q->expr->{$this->comperator}(
-                $q->currentMainAlias() . '.' . $this->provider . '_' . $this->variable,
-                $q->bindValue($this->value, null, $this->type)
+                $q->currentMainAlias() . '.' . $this->variable->getProvider() . '_' . $this->variable->getName(),
+                $q->bindValue($this->value, null, $this->variable->getPdoType())
             )
         );
     }

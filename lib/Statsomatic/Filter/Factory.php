@@ -45,11 +45,9 @@ class Statsomatic_Filter_Factory
         $variable = $this->lookupVariable($filter['provider'], $filter['variable'], $filter['type']);
 
         return new $class(
-            $variable->getProvider(),
-            $variable->getName(),
+            $variable,
             $comperator,
-            $variable->castValue($filter['value']),
-            $variable->getPdoType()
+            $variable->castValue($filter['value'])
         );
     }
 

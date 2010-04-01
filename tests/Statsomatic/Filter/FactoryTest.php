@@ -60,11 +60,11 @@ class Statsomatic_Filter_FactoryTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $filters[0],
-            new Statsomatic_Filter_MainColumnFilter('provider1', 'variable1', 'eq', 'foo', PDO::PARAM_STR)
+            new Statsomatic_Filter_MainColumnFilter(new Statsomatic_Variable('provider1', 'variable1', 'varchar', false, Statsomatic_Variable::MAIN), 'eq', 'foo')
         );
         $this->assertEquals(
             $filters[1],
-            new Statsomatic_Filter_DetailsRowAnyFilter('provider2', 'variable2', 'lte', 3, PDO::PARAM_INT)
+            new Statsomatic_Filter_DetailsRowAnyFilter(new Statsomatic_Variable('provider2', 'variable2', 'int'), 'lte', 3, PDO::PARAM_INT)
         );
     }
 }

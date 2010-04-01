@@ -27,8 +27,8 @@ class Statsomatic_Filter_DetailsRowAnyFilterTest extends PHPUnit_Framework_TestC
     static public function filterData()
     {
         return array(
-            array('lte', 2, PDO::PARAM_INT, 'd1.value_int <= :ezcValue3'),
-            array('eq','abc', PDO::PARAM_STR, 'd1.value_string = :ezcValue3'),
+            array('lte', 2, 'int', 'd1.value_int <= :ezcValue3'),
+            array('eq','abc', 'varchar', 'd1.value_string = :ezcValue3'),
         );
     }
 
@@ -37,7 +37,7 @@ class Statsomatic_Filter_DetailsRowAnyFilterTest extends PHPUnit_Framework_TestC
     */
     public function testApplyFilter($comperator, $value, $type, $sql)
     {
-        $filter = new Statsomatic_Filter_DetailsRowAnyFilter('PROVIDER', 'variable', $comperator, $value, $type);
+        $filter = new Statsomatic_Filter_DetailsRowAnyFilter(new Statsomatic_Variable('PROVIDER', 'variable', $type), $comperator, $value);
         $filter->apply($this->query);
 
         $this->assertEquals('SELECT m1.entry_id FROM statistics_main AS m1 WHERE m1.entry_id IN ( SELECT d1.entry_id FROM statistics_details AS d1 WHERE d1.provider = :ezcValue1 AND d1.variable = :ezcValue2 AND ' . $sql . ' )', $this->query->getQuery());

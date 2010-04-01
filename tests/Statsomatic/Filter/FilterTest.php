@@ -26,8 +26,8 @@ class Statsomatic_Filter_FilterTest extends PHPUnit_Framework_TestCase
 
     public function testCombineFilters()
     {
-        $filter1 = new Statsomatic_Filter_MainColumnFilter('PROVIDER2', 'variable2', 'eq', 'abc', PDO::PARAM_STR);
-        $filter2 = new Statsomatic_Filter_DetailsRowAnyFilter('PROVIDER1', 'variable1', 'lt', 3, PDO::PARAM_INT);
+        $filter1 = new Statsomatic_Filter_MainColumnFilter(new Statsomatic_Variable('PROVIDER2', 'variable2', 'varchar'), 'eq', 'abc');
+        $filter2 = new Statsomatic_Filter_DetailsRowAnyFilter(new Statsomatic_Variable('PROVIDER1', 'variable1', 'int'), 'lt', 3);
 
         $filter1->apply($this->query);
         $filter2->apply($this->query);

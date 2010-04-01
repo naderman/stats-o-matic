@@ -25,19 +25,21 @@ class Statsomatic_VariableTest extends PHPUnit_Framework_TestCase
     static public function dataTypes()
     {
         return array(
-            array('int', PDO::PARAM_INT),
-            array('varchar', PDO::PARAM_STR),
-            array('text', PDO::PARAM_STR),
+            array('int', PDO::PARAM_INT, 'value_int'),
+            array('varchar', PDO::PARAM_STR, 'value_string'),
+            array('text', PDO::PARAM_STR, 'value_string'),
         );
     }
 
     /**
     * @dataProvider dataTypes
     */
-    public function testPdoType($type, $pdoType)
+    public function testPdoType($type, $pdoType, $valueColumn)
     {
         $variable = new Statsomatic_Variable('foo', 'bar', $type);
+
         $this->assertEquals($pdoType, $variable->getPdoType());
+        $this->assertEquals($valueColumn, $variable->getValueColumn());
     }
 
     static public function castValues()

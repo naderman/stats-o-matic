@@ -9,24 +9,20 @@
 
 class Statsomatic_Filter_DetailsRowAnyFilter implements Statsomatic_FilterInterface
 {
-    private $provider;
     private $variable;
     private $comperator;
     private $value;
-    private $type;
 
-    public function __construct($provider, $variable, $comperator, $value, $type = PDO::PARAM_STR)
+    public function __construct(Statsomatic_Variable $variable, $comperator, $value)
     {
-        $this->provider = $provider;
         $this->variable = $variable;
         $this->comperator = $comperator;
         $this->value = $value;
-        $this->type = $type;
     }
 
     public function apply(ezcQuerySelect $q)
     {
-        $value_column = ($this->type == PDO::PARAM_INT) ? 'value_int' : 'value_string';
+        $valueColumn = $this->variable->getValueColumn();;
 
         $qDetail = $q->subSelect();
         $qDetail
@@ -35,15 +31,15 @@ class Statsomatic_Filter_DetailsRowAnyFilter implements Statsomatic_FilterInterf
             ->where(
                 $q->expr->eq(
                     $q->detailColumn('provider'),
-                    $q->bindValue($this->provider, null, PDO::PARAM_STR)
+                    $q->bindValue($this->variable->getProvider(), null, PDO::PARAM_STR)
                 ),
                 $q->expr->eq(
                     $q->detailColumn('variable'),
-                    $q->bindValue($this->variable, null, PDO::PARAM_STR)
+                    $q->bindValue($this->variable->getName(), null, PDO::PARAM_STR)
                 ),
                 $q->expr->{$this->comperator}(
-                    $q->detailColumn($value_column),
-                    $q->bindValue($this->value, null, $this->type)
+                    $q->detailColumn($valueColumn),
+                    $q->bindValue($this->value, null, $this->variable->getPdoType())
                 )
             )
         ;

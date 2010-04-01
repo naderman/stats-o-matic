@@ -105,4 +105,17 @@ class Statsomatic_Variable
                 return '' . $value;
         }
     }
+
+    public function getValueColumn()
+    {
+        switch ($this->type)
+        {
+            case 'int':
+                return 'value_int';
+
+            case 'text':
+            case 'varchar':
+                return 'value_string';
+        }
+    }
 }

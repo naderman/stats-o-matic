@@ -20,7 +20,7 @@ class Statsomatic_Filter_DetailsRowAnyFilter implements Statsomatic_FilterInterf
         $this->value = $value;
     }
 
-    public function apply(ezcQuerySelect $q)
+    public function apply(Statsomatic_Query $q)
     {
         $valueColumn = $this->variable->getValueColumn();;
 

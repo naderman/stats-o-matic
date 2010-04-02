@@ -9,5 +9,5 @@
 
 interface Statsomatic_FilterInterface
 {
-    public function apply(ezcQuerySelect $query);
+    public function apply(Statsomatic_Query $query);
 }

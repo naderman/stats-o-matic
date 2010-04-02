@@ -22,6 +22,6 @@ class Statsomatic_DatabaseAccess
 
     public function createSelectQuery()
     {
-        return new Statsomatic_Query($this->getDb()->createSelectQuery());
+        return new Statsomatic_Query($this->getDb()->createSelectQuery(), $this->getDb());
     }
 }

@@ -7,20 +7,68 @@
 *
 */
 
-class Statsomatic_Query extends ezcQuerySelect
+class Statsomatic_Query
 {
-    private $query;
-    private $currentMain = 0;
-    private $currentDetails = 0;
+    protected $query;
+
+    protected $fromArgs = array();
+    protected $leftJoins = array();
+
+    protected $currentMain = 0;
+    protected $currentDetails = 0;
+    protected $currentValue = 0;
 
     public $expr;
     public $db;
 
-    public function __construct(ezcQuerySelect $q)
+    public function __construct(ezcQuerySelect $q, PDO $db)
     {
         $this->query = $q;
-        $this->db = $q->db;
+        $this->db = $db;
         $this->expr = $q->expr;
+    }
+
+    public function from()
+    {
+        $this->fromArgs = func_get_args();
+
+        return $this;
+    }
+
+    public function addLeftJoin($table, $exprOrId1, $id2 = null)
+    {
+        $this->leftJoins[] = array($table, $exprOrId1, $id2);
+    }
+
+    public function getQuery()
+    {
+        if (sizeof($this->fromArgs))
+        {
+            call_user_func_array(array($this->query, 'from'), $this->fromArgs);
+        }
+
+        foreach ($this->leftJoins as $leftJoin)
+        {
+            if ($leftJoin[2] !== null)
+            {
+                $this->leftJoin($leftJoin[0], $leftJoin[1], $leftJoin[2]);
+            }
+            else
+            {
+                $this->leftJoin($leftJoin[0], $leftJoin[1]);
+            }
+        }
+
+        $this->fromArgs = array();
+        $this->leftJoins = array();
+
+        return $this->query->getQuery();
+    }
+
+    public function nextValueAlias($expression)
+    {
+        $this->currentValue++;
+        return $this->alias($expression, 'value' . $this->currentValue);
     }
 
     public function nextMainAlias()
@@ -57,6 +105,14 @@ class Statsomatic_Query extends ezcQuerySelect
 
     public function __call($name, $arguments)
     {
-        return call_user_func_array(array($this->query, $name), $arguments);
+        $result = call_user_func_array(array($this->query, $name), $arguments);
+
+        // make sure the fluid interface still works so return $this if necessary
+        if ($result === $this->query)
+        {
+            return $this;
+        }
+
+        return $result;
     }
 }

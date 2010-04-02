@@ -20,11 +20,11 @@ class Statsomatic_Filter_MainColumnFilter implements Statsomatic_FilterInterface
         $this->value = $value;
     }
 
-    public function apply(ezcQuerySelect $q)
+    public function apply(Statsomatic_Query $q)
     {
         $q->where(
             $q->expr->{$this->comperator}(
-                $q->currentMainAlias() . '.' . $this->variable->getProvider() . '_' . $this->variable->getName(),
+                $q->mainColumn($this->variable->getColumnName()),
                 $q->bindValue($this->value, null, $this->variable->getPdoType())
             )
         );

@@ -53,6 +53,11 @@ class Statsomatic_Variable
         return $this->name;
     }
 
+    public function getColumnName()
+    {
+        return $this->provider . '_' . $this->name;
+    }
+
     public function getType()
     {
         return $this->type;

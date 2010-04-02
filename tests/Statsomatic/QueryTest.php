@@ -42,11 +42,34 @@ class Statsomatic_QueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('d2', $this->query->currentDetailsAlias());
     }
 
+    public function testNextValueAlias()
+    {
+        $alias1 = $this->query->nextValueAlias('foo.bar');
+        $this->assertEquals('foo.bar AS value1', $alias1);
+
+        $alias2 = $this->query->nextValueAlias('foo.bar');
+        $this->assertEquals('foo.bar AS value2', $alias2);
+    }
+
     public function testSelect()
     {
         $query = $this->query->select('*');
 
         $this->assertEquals($this->query, $query);
         $this->assertEquals('SELECT *', $this->query->getQuery());
+    }
+
+    public function testAddLeftJoin()
+    {
+        $this->query->from('foo');
+        $this->query->addLeftJoin('bar', 'a', 'b');
+        $this->query->select('banana');
+        $this->query->addLeftJoin('monkey', 'b', 'c');
+
+        $expectedQuery = 'SELECT banana FROM foo LEFT JOIN bar ON a = b LEFT JOIN monkey ON b = c';
+
+        // test twice to make sure it is not reapplied
+        $this->assertEquals($expectedQuery, $this->query->getQuery());
+        $this->assertEquals($expectedQuery, $this->query->getQuery());
     }
 }

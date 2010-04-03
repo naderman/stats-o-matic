@@ -7,3 +7,6 @@
 [submodule "lib/ezc-database"]
 	path = lib/ezc-database
 	url = git://github.com/naderman/ezc-database.git
+[submodule "lib/ezc-graph-database-tiein"]
+	path = lib/ezc-graph-database-tiein
+	url = git://github.com/naderman/ezc-graph-database-tiein

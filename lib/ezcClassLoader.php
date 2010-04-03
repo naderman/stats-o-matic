@@ -26,6 +26,10 @@ class ezcClassLoader
             $classLocations = include($this->getPath() . 'db_autoload.php');
             $classLocations += include($this->getPath() . 'query_autoload.php');
         }
+        else if (strtolower($component) == 'graph-database-tiein')
+        {
+            $classLocations = include($this->getPath() . 'graph_database_autoload.php');
+        }
         else
         {
             $classLocations = include($this->getPath() . strtolower($component) . '_autoload.php');
@@ -33,7 +37,7 @@ class ezcClassLoader
 
         foreach ($classLocations as $class => $path)
         {
-            $this->classLocations[$class] = substr($path, strlen($component) + 1); // strip component name from path
+            $this->classLocations[$class] = substr($path, strlen(str_replace('-', '', $component)) + 1); // strip component name from path
         }
     }
 

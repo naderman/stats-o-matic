@@ -31,3 +31,6 @@ $ezcDatabaseLoader->register();
 
 $ezcGraphLoader = new ezcClassLoader('Graph');
 $ezcGraphLoader->register();
+
+$ezcGraphDatabaseTieinLoader = new ezcClassLoader('Graph-Database-Tiein');
+$ezcGraphDatabaseTieinLoader->register();

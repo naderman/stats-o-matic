@@ -34,7 +34,6 @@ $important_variables = array(
 
 	array('System', 'os', 'varchar'),
 	array('System', 'httpd', 'varchar'),
-	array('System', 'ip', 'varchar'),
 
 	// add application specific ones here
 );

@@ -9,11 +9,39 @@
 
 class Statsomatic_Data_Definitions
 {
-    protected $providers;
+    protected $providers = array(
+        false => array(
+            'install_id' => array(
+                'type' => 'varchar',
+                'isArray' => false,
+                'main' => true,
+            ),
+            'entry_id' => array(
+                'type' => 'varchar',
+                'isArray' => false,
+                'main' => true,
+            ),
+            'timestamp' => array(
+                'type' => 'int',
+                'isArray' => false,
+                'main' => true,
+            ),
+        ),
+    );
 
     public function __construct(array $providers)
     {
-        $this->providers = $providers;
+        foreach ($providers as $key => $provider)
+        {
+            if (is_array($provider))
+            {
+                $this->providers[$key] = $provider;
+            }
+            else
+            {
+                $this->providers[$provider] = include('Statsomatic/Data/Provider' . $provider . '.php');
+            }
+        }
     }
 
     public function lookup($provider, $variable)

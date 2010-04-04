@@ -20,6 +20,15 @@ class Statsomatic_VariableTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('int', $variable->getType());
         $this->assertEquals(false, $variable->isArray());
         $this->assertEquals('MainColumn', $variable->getScopeName());
+        $this->assertEquals('foo_bar', $variable->getColumnName());
+    }
+
+    public function testGlobalColumn()
+    {
+        $variable = new Statsomatic_Variable(false, 'bar', 'int', false, Statsomatic_Variable::MAIN);
+
+        $this->assertEquals(false, $variable->getProvider());
+        $this->assertEquals('bar', $variable->getColumnName());
     }
 
     static public function dataTypes()

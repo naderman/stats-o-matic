@@ -7,7 +7,7 @@
 *
 */
 
-class Statsomatic_Filter_Factory
+class Statsomatic_Filter_Factory extends Statsomatic_QueryParameterFactory
 {
     static public $comperators = array(
         'eq' => true,
@@ -18,31 +18,9 @@ class Statsomatic_Filter_Factory
         'lte' => true,
     );
 
-    protected $dataDefinitions;
-
-    public function __construct(Statsomatic_Data_Definitions $dataDefinitions)
+    protected function createQueryParamInstance($class, $filter, $variable)
     {
-        $this->dataDefinitions = $dataDefinitions;
-    }
-
-    public function filtersFromArray(array $filterDefinitions)
-    {
-        $filters = array();
-
-        foreach ($filterDefinitions as $filter)
-        {
-            $filters[] = $this->filterFromArray($filter);
-        }
-
-        return $filters;
-    }
-
-    public function filterFromArray(array $filter)
-    {
-        $class = $this->selectFilterClass($filter['type']);
         $comperator = $this->selectComperator($filter['comperator']);
-
-        $variable = $this->lookupVariable($filter['provider'], $filter['variable'], $filter['type']);
 
         return new $class(
             $variable,
@@ -51,16 +29,9 @@ class Statsomatic_Filter_Factory
         );
     }
 
-    public function selectFilterClass($type)
+    protected function getParamClassName($type)
     {
-        $class = 'Statsomatic_Filter_' . $type . 'Filter';
-
-        if (class_exists($class))
-        {
-            return $class;
-        }
-
-        throw new Exception(sprintf("Unknown filter type '%s'.", $type));
+        return 'Statsomatic_Filter_' . $type . 'Filter';
     }
 
     public function selectComperator($comperator)
@@ -71,17 +42,5 @@ class Statsomatic_Filter_Factory
         }
 
         throw new Exception(sprintf("Unknown comperator '%s'.", $comperator));
-    }
-
-    public function lookupVariable($provider, $variable, $filterType)
-    {
-        $variable = $this->dataDefinitions->lookup($provider, $variable);
-
-        if (preg_match('/^' . $variable->getScopeName() . '/', $filterType))
-        {
-            return $variable;
-        }
-
-        throw new Exception(sprintf("Filter type ('%s') does not match variable scope: '%s'", $filterType, $variable->getScopeName()));
     }
 }

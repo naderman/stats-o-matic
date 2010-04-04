@@ -40,7 +40,7 @@ class Statsomatic_Query
         $this->leftJoins[] = array($table, $exprOrId1, $id2);
     }
 
-    public function getQuery()
+    protected function setFrom()
     {
         if (sizeof($this->fromArgs))
         {
@@ -61,6 +61,18 @@ class Statsomatic_Query
 
         $this->fromArgs = array();
         $this->leftJoins = array();
+    }
+
+    public function prepare()
+    {
+        $this->setFrom();
+
+        return $this->query->prepare();
+    }
+
+    public function getQuery()
+    {
+        $this->setFrom();
 
         return $this->query->getQuery();
     }

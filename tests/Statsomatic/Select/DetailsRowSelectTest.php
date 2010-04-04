@@ -29,7 +29,7 @@ class Statsomatic_Select_DetailsRowSelectTest extends PHPUnit_Framework_TestCase
 
         $select->apply($this->query);
         $this->assertEquals(
-            'SELECT d1.value_int AS value1 FROM statistics_main AS m1 LEFT JOIN statistics_details AS d1 ON m1.entry_id = d1.entry_id WHERE d1.provider = :ezcValue1 AND d1.variable = :ezcValue2 GROUP BY d1.value_int',
+            'SELECT d1.value_int AS value1 FROM statistics_main AS m1 LEFT JOIN statistics_details AS d1 ON m1.entry_id = d1.entry_id WHERE d1.provider = :ezcValue1 AND d1.variable = :ezcValue2 GROUP BY d1.value_int ORDER BY d1.value_int DESC',
             $this->query->getQuery()
         );
     }
@@ -40,7 +40,7 @@ class Statsomatic_Select_DetailsRowSelectTest extends PHPUnit_Framework_TestCase
 
         $select->apply($this->query);
         $this->assertEquals(
-            'SELECT COUNT(d1.value_int) AS value1 FROM statistics_main AS m1 LEFT JOIN statistics_details AS d1 ON m1.entry_id = d1.entry_id WHERE d1.provider = :ezcValue1 AND d1.variable = :ezcValue2 GROUP BY d1.value_int',
+            'SELECT COUNT(d1.value_int) AS value1 FROM statistics_main AS m1 LEFT JOIN statistics_details AS d1 ON m1.entry_id = d1.entry_id WHERE d1.provider = :ezcValue1 AND d1.variable = :ezcValue2 ORDER BY COUNT(d1.value_int) DESC',
             $this->query->getQuery()
         );
     }

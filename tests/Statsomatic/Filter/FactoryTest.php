@@ -41,14 +41,13 @@ class Statsomatic_Filter_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $filterDefinitions = array(
             array(
-                'type' => 'MainColumn',
                 'provider' => 'provider1',
                 'variable' => 'variable1',
                 'comperator' => 'eq',
                 'value' => 'foo',
             ),
             array(
-                'type' => 'DetailsRowAny',
+                'type' => 'Any',
                 'provider' => 'provider2',
                 'variable' => 'variable2',
                 'comperator' => 'lte',
@@ -56,7 +55,7 @@ class Statsomatic_Filter_FactoryTest extends PHPUnit_Framework_TestCase
             ),
         );
 
-        $filters = $this->factory->filtersFromArray($filterDefinitions);
+        $filters = $this->factory->paramsFromArray($filterDefinitions);
 
         $this->assertEquals(
             $filters[0],

@@ -46,7 +46,8 @@ class Statsomatic_FilteredSelectTest extends PHPUnit_Framework_TestCase
                     "SELECT d1.entry_id FROM statistics_details AS d1 WHERE d1.provider = :ezcValue2 AND d1.variable = :ezcValue3 AND d1.value_int < :ezcValue4 " .
                 ") " .
                 "AND d2.provider = :ezcValue5 AND d2.variable = :ezcValue6 " .
-            "GROUP BY m1.PROVIDER2_variable2, d2.value_int"
+            "GROUP BY m1.PROVIDER2_variable2 " .
+            "ORDER BY m1.PROVIDER2_variable2 DESC, MAX(d2.value_int) DESC"
             ,
             $this->query->getQuery()
         );

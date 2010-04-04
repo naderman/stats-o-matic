@@ -72,4 +72,12 @@ class Statsomatic_QueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedQuery, $this->query->getQuery());
         $this->assertEquals($expectedQuery, $this->query->getQuery());
     }
+
+    public function testPrepare()
+    {
+        $query = $this->query->select('*')->from('foo');
+
+        $pdoStatement = $this->query->prepare();
+        $this->assertEquals('SELECT * FROM foo', $pdoStatement->queryString);
+    }
 }

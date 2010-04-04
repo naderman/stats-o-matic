@@ -29,7 +29,7 @@ class Statsomatic_Select_MainColumnSelectTest extends PHPUnit_Framework_TestCase
 
         $select->apply($this->query);
         $this->assertEquals(
-            'SELECT m1.provider_variable AS value1 FROM statistics_main AS m1 GROUP BY m1.provider_variable',
+            'SELECT m1.provider_variable AS value1 FROM statistics_main AS m1 GROUP BY m1.provider_variable ORDER BY m1.provider_variable DESC',
             $this->query->getQuery()
         );
     }

@@ -32,4 +32,9 @@ class Statsomatic_Aggregator
 
         throw new Exception(sprintf("Unknown Aggregator '%s'", $this->name));
     }
+
+    public function isId()
+    {
+        return $this->name == 'ID';
+    }
 }
